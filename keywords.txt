@@ -1,4 +1,7 @@
-food,meat,fish,vegetables,fruits
+fish,tuna,carp,perch,smelt,bream,pike
+vegetables,tomato,potato,cucumber,corn,carrot
+fruit,apple,peach,pear,cherry
+berry,strawberry,raspberry,currant
 weather,sun,wind,snow,rain,lightning,thunder
 meat,pork,beef,mutton
 pet,cat,dog,fish,hamster,mouse
@@ -11,3 +14,4 @@ sport,ball,stadium,jogging,meditation
 space,planet,asteroid,meteor,star
 technique,computer,smartphone,PC
 clothes,shirt,skirt,pullover,sweater,coat
+
