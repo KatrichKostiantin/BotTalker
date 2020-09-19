@@ -1,6 +1,6 @@
-Do you like *?_fish_meat_vegetables_fruit_berries_travel_sport_space_technique_sport_bakery
-Do you have *?_work_love_family_pets
-Tell me more about your *._holidays_travel_clothes_work
-What do you think about *?_weather_technique_space_sport
-Hello!_cheers
-Take care!_bb
+Do you like *?;fish;meat;vegetables;fruit;berries;travel;sport;space;technique;sport;bakery
+Do you have *?;work;love;family;pets
+Tell me more about your *.;holidays;travel;clothes;work
+What do you think about *?;weather;technique;space;sport
+Hello!;cheers
+Take care!;bb

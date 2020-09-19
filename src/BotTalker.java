@@ -19,7 +19,7 @@ public class BotTalker {
         try {
             uselessWords = uselessWordReader.readAllFile(",").get("useless");
             allThem = themeWordReader.readAllFile(",");
-            answersPattern = answersPatternWordReader.readAllFile("_");
+            answersPattern = answersPatternWordReader.readAllFile(";");
         } catch (IOException e) {
             System.out.println("We cannot find database file");
         } finally {
@@ -82,7 +82,7 @@ public class BotTalker {
     }
 
     private void askMoreInformation(String userMessage) {
-        System.out.println("Bot: Sorry, I do not understand you.");
+        System.out.println("Bot: Sorry, I dont understand you.");
     }
 
 
