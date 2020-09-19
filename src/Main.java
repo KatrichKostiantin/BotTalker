@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to our bot talker.\n");
         String userName = readUserName();
-        BotTalker mainBotTalker = new BotTalker(userName, "src/dataBase.txt", "");
+        BotTalker mainBotTalker = new BotTalker(userName, "keywords.txt", "uselessWord.txt", "answers.txt");
         mainBotTalker.startDialog();
     }
 

@@ -7,18 +7,24 @@ public class BotTalker {
 
     List<String> uselessWords, lastTheme;
     Map<String, List<String>> allThem;
-    public BotTalker(String userName, String themeDBName, String uselessWordDBName) {
+    Map<String, List<String>> answersPattern;
+    public BotTalker(String userName, String themeDBName, String uselessWordDBName, String answersDBName) {
         this.userName = userName;
         lastTheme = new ArrayList<>();
         DataBaseReader uselessWordReader = new DataBaseReader(uselessWordDBName);
         DataBaseReader themeWordReader = new DataBaseReader(themeDBName);
+        DataBaseReader answersPatternWordReader = new DataBaseReader(answersDBName);
         try {
-            uselessWords = uselessWordReader.readAllFile().get("useless");
-            allThem = themeWordReader.readAllFile();
+            uselessWords = uselessWordReader.readAllFile(",").get("useless");
+            allThem = themeWordReader.readAllFile(",");
+            answersPattern = answersPatternWordReader.readAllFile("_");
         } catch (IOException e) {
-            System.out.println("We cannot find uselessWord database file");
+            System.out.println("We cannot find database file");
+        }finally {
+            uselessWordReader.close();
+            themeWordReader.close();
+            answersPatternWordReader.close();
         }
-
     }
 
     public void startDialog() {
@@ -31,7 +37,7 @@ public class BotTalker {
             if(searchVerbWord(userMessage)) //Пытаемся найти глагол чтобы его как-то использовать
                 continue;
 
-            askMoreInformation();           //Просим больше информации чтобы что-то сказать в следующий раз
+            askMoreInformation(userMessage);//Просим больше информации чтобы что-то сказать в следующий раз
         } while (true);
     }
 
@@ -49,7 +55,7 @@ public class BotTalker {
         return false;
     }
 
-    private void askMoreInformation() {
+    private void askMoreInformation(String userMessage) {
     }
 
 
@@ -66,7 +72,7 @@ public class BotTalker {
 
     private List<String> splitAndCleanMessage(String userMessage) {
         List<String> result = new ArrayList<>();
-        String[] splitMessage = userMessage.toLowerCase().split(" ");
+        String[] splitMessage = userMessage.toLowerCase().replaceAll("[^a-zA-Z0-9]", "").split(" ");
         for (String word : splitMessage) {
             if (!uselessWords.contains(word))
                 result.add(word);
