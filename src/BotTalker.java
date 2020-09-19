@@ -24,12 +24,34 @@ public class BotTalker {
     public void startDialog() {
         do {
             String userMessage = userInput();
-            if(processingMessage(userMessage))
+            if(yesNoQuestion(userMessage))  // Если на вопрос можно ответить да или нет
                 continue;
-            List<String> splitWords = splitAndCleanMessage(userMessage);
-            List<String> theme = findThemes(splitWords);
+            if(searchKeyWord(userMessage))  // Пытаемся найти ключевое слово
+                continue;
+            if(searchVerbWord(userMessage)) //Пытаемся найти глагол чтобы его как-то использовать
+                continue;
+
+            askMoreInformation();           //Просим больше информации чтобы что-то сказать в следующий раз
         } while (true);
     }
+
+    private boolean yesNoQuestion(String userMessage) {
+        return false;
+    }
+
+    private boolean searchKeyWord(String userMessage) {
+        List<String> splitWords = splitAndCleanMessage(userMessage);
+        List<String> theme = findThemes(splitWords);
+        return false;
+    }
+
+    private boolean searchVerbWord(String userMessage) {
+        return false;
+    }
+
+    private void askMoreInformation() {
+    }
+
 
     private List<String> findThemes(List<String> splitWords) {
         List<String> result = new ArrayList<>();
@@ -40,10 +62,6 @@ public class BotTalker {
             }
         }
         return result;
-    }
-
-    private boolean processingMessage(String userMessage) { //Если это вопрос да\нет или я уже не помню
-        return false;
     }
 
     private List<String> splitAndCleanMessage(String userMessage) {
