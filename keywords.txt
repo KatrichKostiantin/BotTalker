@@ -16,4 +16,6 @@ technique,computer,smartphone,PC
 clothes,shirt,skirt,pullover,sweater,coat
 bakery,bread,cake,eclair
 cheers,hello,hi,good day,good morning,good night
-bb, bye, goodbye
+bb,bye,goodbye
+programming,java,c++,python,assembler,ruby
+do,reading,watching films,jump with parachute,driving,
