@@ -36,7 +36,7 @@ public class DataBaseReader {
         return result;
     }
 
-    public void close(){
+    public void close() {
         try {
             reader.close();
         } catch (IOException e) {
