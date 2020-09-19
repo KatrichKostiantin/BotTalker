@@ -1,16 +1,5 @@
-meat
-fish
-bakery
-vegetables
-fruits
-weather
-pet
-work
-love
-family
-travel
-holidays
-sport
-space
-technique
-clothes
+Do you like *?_fish_meat_vegetables_fruit_berries_travel_sport_space_technique_sport_bakery
+Do you have *?_work_love_family_pets
+Tell me more about your *._holidays_travel_clothes_work
+Hello_cheers
+Take care!_bb

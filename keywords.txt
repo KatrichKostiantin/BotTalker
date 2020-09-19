@@ -1,10 +1,10 @@
 fish,tuna,carp,perch,smelt,bream,pike
 vegetables,tomato,potato,cucumber,corn,carrot
 fruit,apple,peach,pear,cherry
-berry,strawberry,raspberry,currant
+berries,strawberry,raspberry,currant
 weather,sun,wind,snow,rain,lightning,thunder
 meat,pork,beef,mutton
-pet,cat,dog,fish,hamster,mouse
+pets,cat,dog,fish,hamster,mouse
 work,boss,colleague,partner,business,client
 love,girlfriend,relations
 family,father,mother,grandfather,grandmother
@@ -15,3 +15,5 @@ space,planet,asteroid,meteor,star
 technique,computer,smartphone,PC
 clothes,shirt,skirt,pullover,sweater,coat
 bakery,bread,cake,eclair
+cheers,hello,hi,good day,good morning,good night
+bb, bye, goodbye
