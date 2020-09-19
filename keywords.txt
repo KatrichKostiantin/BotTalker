@@ -14,4 +14,4 @@ sport,ball,stadium,jogging,meditation
 space,planet,asteroid,meteor,star
 technique,computer,smartphone,PC
 clothes,shirt,skirt,pullover,sweater,coat
-
+bakery,bread,cake,eclair
