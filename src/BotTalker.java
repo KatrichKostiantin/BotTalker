@@ -59,7 +59,7 @@ public class BotTalker {
 
     private void printRandomAnswer(List<String> answers) {
         int randomIndex = random.nextInt(answers.size());
-        System.out.println("bot: " + answers.get(randomIndex));
+        System.out.println("Bot: " + answers.get(randomIndex));
     }
 
     private List<String> findNormalAnswers(List<String> themes) {
@@ -82,6 +82,7 @@ public class BotTalker {
     }
 
     private void askMoreInformation(String userMessage) {
+        System.out.println("Bot: Sorry, I do not understand you.");
     }
 
 
@@ -98,7 +99,7 @@ public class BotTalker {
 
     private List<String> splitAndCleanMessage(String userMessage) {
         List<String> result = new ArrayList<>();
-        String[] splitMessage = userMessage.toLowerCase().replaceAll("[^a-zA-Z0-9]", "").split(" ");
+        String[] splitMessage = userMessage.toLowerCase().replaceAll("[^a-z 0-9]", "").split(" ");
         for (String word : splitMessage) {
             if (!uselessWords.contains(word))
                 result.add(word);
