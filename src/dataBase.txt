@@ -1,1 +1,13 @@
 food,meat,fish,vegetables,fruits
+weather,sun,wind,snow,rain,lightning,thunder
+meat,pork,beef,mutton
+pet,cat,dog,fish,hamster,mouse
+work,boss,colleague,partner,business,client
+love,girlfriend,relations
+family,father,mother,grandfather,grandmother
+travel,plane,airport,flew
+holidays,beach,sea,party,cocktail
+sport,ball,stadium,jogging,meditation
+space,planet,asteroid,meteor,star
+technique,computer,smartphone,PC
+clothes,shirt,skirt,pullover,sweater,coat
