@@ -1,13 +1,14 @@
 fish,tuna,carp,perch,smelt,bream,pike
 vegetables,tomato,potato,cucumber,corn,carrot
 fruit,apple,peach,pear,cherry
+food,apple,peach,pear,cherry,tuna,carp,perch,smelt,bream,pike,strawberry,raspberry,currant,pork,beef,mutton
 berries,strawberry,raspberry,currant
 weather,sun,wind,snow,rain,lightning,thunder
 meat,pork,beef,mutton
 pets,cat,dog,fish,hamster,mouse
 work,boss,colleague,partner,business,client
 love,girlfriend,relations
-family,father,mother,grandfather,grandmother
+family,father,mother,grandfather,grandmother,child,husband,wife,sister,brother
 travel,plane,airport,flew
 holidays,beach,sea,party,cocktail
 sport,ball,stadium,jogging,meditation
@@ -15,7 +16,14 @@ space,planet,asteroid,meteor,star
 technique,computer,smartphone,PC
 clothes,shirt,skirt,pullover,sweater,coat
 bakery,bread,cake,eclair
-cheers,hello,hi,good day,good morning,good night
-bb,bye,goodbye
+cheers,hello,hi,good day,good morning
+bb,bye,goodbye,good night
 programming,java,c++,python,assembler,ruby
-do,reading,watching films,jump with parachute,driving,
+do,reading,watching films,jump with parachute,driving
+friend,friends,mate,dude
+film,cinema,Avatar,Black Panther,Avengers,Titanic,Jurassic World,Marvel's The Avengers,Incredibles ,The Lion King,The Dark Knight,Rogue One: A Star Wars Story,Beauty and the Beast,Finding Dory,Avengers,The Dark Knight Rises,Shrek , E. T. The Extra-Terrestrial,Captain Marvel,The Hunger Games,Pirates of the Caribbean,The Lion King,Jurassic World: Fallen Kingdom,Toy Story,Wonder Woman,Captain America,The Hunger Games,Spider-Man,Jumanji: Welcome to the Jungle,Jurassic Park,Transformers: Revenge of the Fallen,Frozen,Guardians of the Galaxy ,Finding Nemo,Star Wars,The Lord of the Rings: The Return of the King,Spider-Man 2,The Passion of the Christ,The Secret Life of Pets,Despicable Me ,The Jungle Book,Deadpool,Inside Out,Aladdin,Furious,Transformers,American Sniper,The Lord of the Rings: The Two Towers,Zootopia,The Hunger Games,Spider-Man,Minions,Joker,Aquaman,Spider-Man: Homecoming,Alice in Wonderland,Guardians of the Galaxy,Forrest Gump,Batman v Superman: Dawn of Justice,Suicide Squad,Deadpool ,Shrek the Third,Transformers,Iron Man,Harry Potter and the Sorcerer's Stone,Indiana Jones and the Kingdom of the Crystal Skull,Jumanji,The Lord of the Rings: The Fellowship of the Ring,Thor,Iron Man,Pirates of the Caribbean: At World's End,Independence Day,Pirates of the Caribbean: The Curse of the Black Pearl,Skyfall,The Hobbit: An Unexpected Journey,Harry Potter and the Half-Blood Prince,The Twilight Saga,Harry Potter,The Sixth Sense,Harry Potter and the Order of the Phoenix,The Twilight Saga,The Chronicles of Narnia,Witch and the Wardrobe,Star Wars,Man of Steel,Harry Potter and the Goblet of Fire
+talent
+travel
+alcohol,vodka,whiskey,brandy,vermouth,cognac,beer,wine,rum,gin,cider
+book,books
+car

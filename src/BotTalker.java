@@ -2,20 +2,26 @@ import java.io.IOException;
 import java.util.*;
 
 public class BotTalker {
+    private static final String THEME_FILE_NAME = "keywords.txt";
+    private static final String USELESS_FILE_NAME = "uselessWord.txt";
+    private static final String ANSWER_FILE_NAME = "answers.txt";
     Scanner in = new Scanner(System.in);
     String userName;
-
     Random random = new Random();
     List<String> uselessWords, lastTheme;
     Map<String, List<String>> allThem;
     Map<String, List<String>> answersPattern;
+    List<String> askMore = Arrays.asList("Sorry, I dont understand you.", "Can you tell us something else about yourself?",
+            "Let's change the subject, what else are you fond of?", "What do you think about this?",
+            "And how does society react to this?", "Can you tell us about this?",
+            "I do not want to talk about this topic.");
 
-    public BotTalker(String userName, String themeDBName, String uselessWordDBName, String answersDBName) {
+    public BotTalker(String userName) {
         this.userName = userName;
         lastTheme = new ArrayList<>();
-        DataBaseReader uselessWordReader = new DataBaseReader(uselessWordDBName);
-        DataBaseReader themeWordReader = new DataBaseReader(themeDBName);
-        DataBaseReader answersPatternWordReader = new DataBaseReader(answersDBName);
+        DataBaseReader uselessWordReader = new DataBaseReader(USELESS_FILE_NAME);
+        DataBaseReader themeWordReader = new DataBaseReader(THEME_FILE_NAME);
+        DataBaseReader answersPatternWordReader = new DataBaseReader(ANSWER_FILE_NAME);
         try {
             uselessWords = uselessWordReader.readAllFile(",").get("useless");
             allThem = themeWordReader.readAllFile(",");
@@ -38,7 +44,8 @@ public class BotTalker {
                 continue;
             if (searchVerbWord(userMessage)) //Пытаемся найти глагол чтобы его как-то использовать
                 continue;
-
+            if (usePreviousThemes())
+                continue;
             askMoreInformation(userMessage);//Просим больше информации чтобы что-то сказать в следующий раз
         } while (true);
     }
@@ -81,10 +88,16 @@ public class BotTalker {
         return false;
     }
 
-    private void askMoreInformation(String userMessage) {
-        System.out.println("Bot: Sorry, I dont understand you.");
+    private boolean usePreviousThemes() {
+        return false;
     }
 
+    private void askMoreInformation(String userMessage) {
+        if (userMessage.length() < 8)
+            botOutput("Don't be so terse.");
+        else
+            botOutput(askMore.get(random.nextInt(askMore.size())));
+    }
 
     private List<String> findThemes(List<String> splitWords) {
         List<String> result = new ArrayList<>();
@@ -110,5 +123,9 @@ public class BotTalker {
     private String userInput() {
         System.out.print(userName + ": ");
         return in.nextLine();
+    }
+
+    private void botOutput(String str) {
+        System.out.println("Bot: " + str);
     }
 }

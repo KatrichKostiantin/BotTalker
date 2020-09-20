@@ -1,6 +1,7 @@
-Do you like *?;fish;meat;vegetables;fruit;berries;travel;sport;space;technique;sport;bakery
+Do you like *?;fish;meat;vegetables;fruit;berries;travel;sport;space;technique;sport;bakery;alcohol
+What kind of * you like?;film;food;fish;meat;vegetables;fruit;berries;travel;sport;space;technique;sport;bakery;book;alcohol
 Do you have *?;work;love;family;pets
 Tell me more about your *.;holidays;travel;clothes;work
-What do you think about *?;weather;technique;space;sport
+What do you think about *?;weather;technique;space;sport;alcohol;book
 Hello!;cheers
 Take care!;bb
