@@ -3,27 +3,35 @@ import java.util.*;
 
 public class BotTalker {
     private static final String THEME_FILE_NAME = "keywords.txt";
-    private static final String USELESS_FILE_NAME = "uselessWord.txt";
+    private static final String ADDITIONAL_FILE_NAME = "additionalFile.txt";
     private static final String ANSWER_FILE_NAME = "answers.txt";
-    Scanner in = new Scanner(System.in);
-    String userName;
-    Random random = new Random();
-    List<String> uselessWords, lastTheme;
-    Map<String, List<String>> allThem;
-    Map<String, List<String>> answersPattern;
-    List<String> askMore = Arrays.asList("Sorry, I dont understand you.", "Can you tell us something else about yourself?",
-            "Let's change the subject, what else are you fond of?", "What do you think about this?",
-            "And how does society react to this?", "Can you tell us about this?",
-            "I do not want to talk about this topic.");
+    private static final int LAST_THEME_IN_QUEUE_SIZE = 7;
+    private static final int RESERVE_THEME_IN_QUEUE_SIZE = 5;
+
+    private static final Scanner in = new Scanner(System.in);
+    private static final Random random = new Random();
+    private List<Response> responsesList;
+    private Queue<String> reserveThemeResponse;
+    private Queue<String> lastPatternResponses;
+    private String userName;
+
+    //Information from DB
+    private List<String> uselessWords;
+    private Map<String, List<String>> allThem;
+    private Map<String, List<String>> answersPattern;
+    private Map<String, List<String>> additionalDB;
 
     public BotTalker(String userName) {
         this.userName = userName;
-        lastTheme = new ArrayList<>();
-        DataBaseReader uselessWordReader = new DataBaseReader(USELESS_FILE_NAME);
+        lastPatternResponses = new LinkedList<>();
+        responsesList = new ArrayList<>();
+        reserveThemeResponse = new LinkedList<>();
+        DataBaseReader uselessWordReader = new DataBaseReader(ADDITIONAL_FILE_NAME);
         DataBaseReader themeWordReader = new DataBaseReader(THEME_FILE_NAME);
         DataBaseReader answersPatternWordReader = new DataBaseReader(ANSWER_FILE_NAME);
         try {
-            uselessWords = uselessWordReader.readAllFile(",").get("useless");
+            additionalDB = uselessWordReader.readAllFile(";");
+            uselessWords = additionalDB.get("useless");
             allThem = themeWordReader.readAllFile(",");
             answersPattern = answersPatternWordReader.readAllFile(";");
         } catch (IOException e) {
@@ -37,67 +45,98 @@ public class BotTalker {
 
     public void startDialog() {
         do {
+            responsesList.clear();
             String userMessage = userInput();
-            if (yesNoQuestion(userMessage))  // Если на вопрос можно ответить да или нет
-                continue;
-            if (searchKeyWord(userMessage))  // Пытаемся найти ключевое слово
-                continue;
-            if (searchVerbWord(userMessage)) //Пытаемся найти глагол чтобы его как-то использовать
-                continue;
-            if (usePreviousThemes())
-                continue;
-            askMoreInformation(userMessage);//Просим больше информации чтобы что-то сказать в следующий раз
+            if (isQuestion(userMessage))
+                addToListResponseOnQuestion(userMessage);
+            else {
+                addToListResponseOnKeyword(userMessage);
+                addToListResponseOnWordPattern(userMessage);
+            }
+
+            checkResponseListOnIteration();
+            if (responsesList.size() == 0)
+                addToListResponseReserveTheme();
+
+            checkResponseListOnIteration();
+            if (responsesList.size() == 0)
+                addToListAskingMoreInformation(userMessage);
+
+            botResponse();
         } while (true);
     }
 
-    private boolean yesNoQuestion(String userMessage) {
-        return false;
+    private boolean isQuestion(String userMessage) {
+        return userMessage.charAt(userMessage.length() - 1) == '?';
     }
 
-    private boolean searchKeyWord(String userMessage) {
+    private void addToListResponseOnQuestion(String userMessage) {
+    }
+
+    private void addToListResponseOnKeyword(String userMessage) {
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> themes = findThemes(splitWords);
-        if (themes.size() == 0)
-            return false;
-        List<String> answers = findNormalAnswers(themes);
-        printRandomAnswer(answers);
-        return true;
+        themes.forEach(reserveThemeResponse::remove);
+        findNormalKeywordsAnswers(themes);
     }
 
-    private void printRandomAnswer(List<String> answers) {
-        int randomIndex = random.nextInt(answers.size());
-        System.out.println("Bot: " + answers.get(randomIndex));
+    private void addToListResponseOnWordPattern(String userMessage) {
     }
 
-    private List<String> findNormalAnswers(List<String> themes) {
-        List<String> result = new ArrayList<>();
+    private void addToListResponseReserveTheme() {
+        checkResponseListOnIteration();
+        findNormalKeywordsAnswers(new ArrayList<>(reserveThemeResponse));
+    }
+
+
+    private void botResponse() {
+        checkResponseListOnIteration();
+        Response answer = responsesList.get(random.nextInt(responsesList.size()));
+        botOutput(answer);
+        controlLastAndReserveResponses(answer);
+    }
+
+    private void checkResponseListOnIteration() {
+        List<Response> suitableResponse = new ArrayList<>();
+        responsesList.forEach(response -> {
+            if (!lastPatternResponses.contains(response.getPattern()))
+                suitableResponse.add(response);
+        });
+        responsesList = suitableResponse;
+    }
+
+    private void controlLastAndReserveResponses(Response answer) {
+        lastPatternResponses.add(answer.getPattern());
+        if (lastPatternResponses.size() == LAST_THEME_IN_QUEUE_SIZE)
+            lastPatternResponses.remove();
+
+        reserveThemeResponse.remove(answer.getAddInfo());
+        if (reserveThemeResponse.size() == RESERVE_THEME_IN_QUEUE_SIZE)
+            reserveThemeResponse.remove();
+    }
+
+    private void findNormalKeywordsAnswers(List<String> themes) {
         for (String theme : themes) {
             for (String answersKey : answersPattern.keySet()) {
-                if (answersPattern.get(answersKey).contains(theme))
-                    result.add(putThemeToPattern(answersKey, theme));
+                if (answersPattern.get(answersKey).contains(theme)) {
+                    responsesList.add(new Response(answersKey, theme));
+                }
             }
+            reserveThemeResponse.add(theme);
         }
-        return result;
     }
 
-    private String putThemeToPattern(String answersPattern, String theme) {
-        return answersPattern.replace("*", theme);
-    }
-
-    private boolean searchVerbWord(String userMessage) {
-        return false;
-    }
-
-    private boolean usePreviousThemes() {
-        return false;
-    }
-
-    private void askMoreInformation(String userMessage) {
+    private void addToListAskingMoreInformation(String userMessage) {
         if (userMessage.length() < 8)
-            botOutput("Don't be so terse.");
-        else
-            botOutput(askMore.get(random.nextInt(askMore.size())));
+            addToResponseList(additionalDB.get("short message"));
+        addToResponseList(additionalDB.get("ask more"));
     }
+
+    private void addToResponseList(List<String> additionalList) {
+        additionalList.forEach(pattern ->
+                responsesList.add(new Response(pattern)));
+    }
+
 
     private List<String> findThemes(List<String> splitWords) {
         List<String> result = new ArrayList<>();
@@ -125,7 +164,7 @@ public class BotTalker {
         return in.nextLine();
     }
 
-    private void botOutput(String str) {
+    private void botOutput(Response str) {
         System.out.println("Bot: " + str);
     }
 }
