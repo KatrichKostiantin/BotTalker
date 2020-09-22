@@ -5,6 +5,8 @@ public class BotTalker {
     private static final String THEME_FILE_NAME = "keywords.txt";
     private static final String ADDITIONAL_FILE_NAME = "additionalFile.txt";
     private static final String ANSWER_FILE_NAME = "answers.txt";
+    private static final String PRONOUNS_FILE_NAME = "pronouns.txt";
+
     private static final int LAST_THEME_IN_QUEUE_SIZE = 7;
     private static final int RESERVE_THEME_IN_QUEUE_SIZE = 5;
 
@@ -20,6 +22,7 @@ public class BotTalker {
     private Map<String, List<String>> allThem;
     private Map<String, List<String>> answersPattern;
     private Map<String, List<String>> additionalDB;
+    private Map<String, List<String>> pronouns;
 
     public BotTalker(String userName) {
         this.userName = userName;
@@ -29,11 +32,13 @@ public class BotTalker {
         DataBaseReader uselessWordReader = new DataBaseReader(ADDITIONAL_FILE_NAME);
         DataBaseReader themeWordReader = new DataBaseReader(THEME_FILE_NAME);
         DataBaseReader answersPatternWordReader = new DataBaseReader(ANSWER_FILE_NAME);
+        DataBaseReader pronounsWordReader = new DataBaseReader(PRONOUNS_FILE_NAME);
         try {
             additionalDB = uselessWordReader.readAllFile(";");
             uselessWords = additionalDB.get("useless");
             allThem = themeWordReader.readAllFile(",");
             answersPattern = answersPatternWordReader.readAllFile(";");
+            pronouns = pronounsWordReader.readAllFile(",");
         } catch (IOException e) {
             System.out.println("We cannot find database file");
         } finally {
@@ -81,6 +86,18 @@ public class BotTalker {
     }
 
     private void addToListResponseOnWordPattern(String userMessage) {
+
+
+        List<String> splitWords = splitAndCleanMessage(userMessage);
+        List<String> pronounsAll = findPronouns(splitWords);
+        pronounsAll.forEach(reserveThemeResponse::remove);
+//        List<String> themes = findThemes(splitWords);
+//        themes.forEach(reserveThemeResponse::remove);
+//        findNormalKeywordsAnswers(themes);
+
+
+
+
     }
 
     private void addToListResponseReserveTheme() {
@@ -137,6 +154,16 @@ public class BotTalker {
                 responsesList.add(new Response(pattern)));
     }
 
+    private List<String> findPronouns(List<String> splitWords) {
+        List<String> result = new ArrayList<>();
+        for (String word : splitWords) {
+            for (String key : pronouns.keySet()) {
+                if (pronouns.get(key).contains(word))
+                    result.add(word);
+            }
+        }
+        return result;
+    }
 
     private List<String> findThemes(List<String> splitWords) {
         List<String> result = new ArrayList<>();
