@@ -34,11 +34,13 @@ public class BotTalker {
         DataBaseReader answersPatternWordReader = new DataBaseReader(ANSWER_FILE_NAME);
         DataBaseReader pronounsWordReader = new DataBaseReader(PRONOUNS_FILE_NAME);
         try {
-            additionalDB = uselessWordReader.readAllFile(";");
+            additionalDB = uselessWordReader.readAllFileAsMap(";");
             uselessWords = additionalDB.get("useless");
-            allThem = themeWordReader.readAllFile(",");
-            answersPattern = answersPatternWordReader.readAllFile(";");
-            pronouns = pronounsWordReader.readAllFile(",");
+            allThem = themeWordReader.readAllFileAsMap(",");
+            answersPattern = answersPatternWordReader.readAllFileAsMap(";");
+            allThem = themeWordReader.readAllFileAsMap(",");
+            answersPattern = answersPatternWordReader.readAllFileAsMap(";");
+            pronouns = pronounsWordReader.readAllFileAsMap(",");
         } catch (IOException e) {
             System.out.println("We cannot find database file");
         } finally {
@@ -54,11 +56,11 @@ public class BotTalker {
             String userMessage = userInput();
             if (isQuestion(userMessage))
                 //addToListResponseOnQuestion(userMessage);
-            	if(isSimpleQuestion(userMessage))
-            		answerYesOrNo();
-            	else {
-            		
-            	}
+                if (isSimpleQuestion(userMessage))
+                    answerYesOrNo();
+                else {
+
+                }
             else {
                 addToListResponseOnKeyword(userMessage);
                 addToListResponseOnWordPattern(userMessage);
@@ -79,35 +81,38 @@ public class BotTalker {
     private boolean isQuestion(String userMessage) {
         return userMessage.endsWith("?");
     }
-    
+
     private boolean isSimpleQuestion(String userMessage) {
-    	String[] simple ={"is","are","am","does","do","did","will","shall","would"};
-    	String firstWord = firstWord(userMessage).toLowerCase();    	
-    	for(int i=0;i<simple.length;i++) {
-    		if(firstWord.equals(simple[i])) return true;
-    	}
-		return false;
+        List<String> yesNoQuestion = additionalDB.get("yesNoQuestion");
+        String[] simple = {"is", "are", "am", "does", "do", "did", "will", "shall", "would"};
+        String firstWord = firstWord(userMessage).toLowerCase();
+        for (String str : yesNoQuestion)
+            if (firstWord.equals(str))
+                return true;
+        return false;
     }
+
     private void detectQuestionType(String userMessage) {
-    	String firstWord = firstWord(userMessage).toLowerCase();
-    	if(firstWord.equals("where")); //return random place
-    	else if(firstWord.equals("when"));// return random time
-    	else if (firstWord.equals("why"));
-    	else if (firstWord.equals("how"));
-    	return ;// what
+        String firstWord = firstWord(userMessage).toLowerCase();
+        if (firstWord.equals("where")) ; //return random place
+        else if (firstWord.equals("when")) ;// return random time
+        else if (firstWord.equals("why")) ;
+        else if (firstWord.equals("how")) ;
+        return;// what
     }
+
     private String answerYesOrNo() {
-    	String[] Yes = {"Yes","Definitely","That's right","Sure","Of course"};
-    	String[] No = {"No","Not really","I don't think so","I am afraid not"};
-    	boolean ans = random.nextBoolean();
-    	if(ans) return Yes[random.nextInt(Yes.length)];
-    	return No[random.nextInt(No.length)];
+        String[] Yes = {"Yes", "Definitely", "That's right", "Sure", "Of course"};
+        String[] No = {"No", "Not really", "I don't think so", "I am afraid not"};
+        boolean ans = random.nextBoolean();
+        if (ans) return Yes[random.nextInt(Yes.length)];
+        return No[random.nextInt(No.length)];
     }
-    
+
     private String firstWord(String userMessage) {
-    	if(userMessage.contains(" ")) 
-    		return  userMessage.substring(0, userMessage.indexOf(" "));
-    	return  userMessage;
+        if (userMessage.contains(" "))
+            return userMessage.substring(0, userMessage.indexOf(" "));
+        return userMessage;
     }
 
     private void addToListResponseOnQuestion(String userMessage) {
@@ -121,16 +126,18 @@ public class BotTalker {
     }
 
     private void addToListResponseOnWordPattern(String userMessage) {
-
-
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> pronounsAll = findPronouns(splitWords);
+        if(pronounsAll.contains(splitWords.get(0))){
+            if (pronounsAll.get(0).equals("i"))
+                responsesList.add(new Response("Why do you think you *", userMessage.replace("I ", "")));
+            else
+                responsesList.add(new Response("Why do you think *", userMessage));
+        }
         pronounsAll.forEach(reserveThemeResponse::remove);
 //        List<String> themes = findThemes(splitWords);
 //        themes.forEach(reserveThemeResponse::remove);
 //        findNormalKeywordsAnswers(themes);
-
-
 
 
     }

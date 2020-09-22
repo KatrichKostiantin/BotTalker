@@ -24,7 +24,7 @@ public class DataBaseReader {
         this.fileName = fileName;
     }
 
-    public Map<String, List<String>> readAllFile(String splitSign) throws IOException {
+    public Map<String, List<String>> readAllFileAsMap(String splitSign) throws IOException {
         Map<String, List<String>> result = new HashMap<>();
         while (reader.ready()) {
             List<String> value = new LinkedList<>(Arrays.asList(reader.readLine().split(splitSign)));
