@@ -104,7 +104,7 @@ public class BotTalker {
     private boolean isQuestion(String userMessage) {
         return userMessage.endsWith("?");
     }
-
+    // check if it is a simple question which starts with certain words
     private boolean isSimpleQuestion(String userMessage) {
         List<String> yesNoQuestion = additionalDB.get("yesNoQuestion");
         String firstWord = firstWord(userMessage).toLowerCase();
@@ -113,7 +113,7 @@ public class BotTalker {
                 return true;
         return false;
     }
-
+    // detect type of the question 
     private void detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
         List<String> answer;
@@ -126,7 +126,7 @@ public class BotTalker {
         }
         responsesList.add(new Response(getRandomElementFromList(answer)));
     }
-
+    // answers randomly variations for yes and no 
     private void answerYesOrNo() {
         List<String> Yes = additionalDB.get("Yes");
         List<String> No = additionalDB.get("No");
@@ -138,7 +138,7 @@ public class BotTalker {
     private String getRandomElementFromList(List<String> list) {
         return list.get(random.nextInt(list.size() - 1));
     }
-
+    // return the first word of the string or the whole string
     private String firstWord(String userMessage) {
         if (userMessage.contains(" "))
             return userMessage.substring(0, userMessage.indexOf(" "));
