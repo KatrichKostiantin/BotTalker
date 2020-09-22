@@ -45,6 +45,7 @@ public class BotTalker {
         }
     }
 
+    //Main processing cycle
     public void startDialog() {
         do {
             responsesList.clear();
@@ -77,6 +78,7 @@ public class BotTalker {
         } while (true);
     }
 
+    //If user massage is greeting answers is greeting
     private void isGreeting(String userMessage) {
         String message = userMessage.toLowerCase();
         List<String> greetings = additionalDB.get("greeting");
@@ -88,6 +90,7 @@ public class BotTalker {
         }
     }
 
+    //If user massage is parting answers is parting and finish main cycle
     private boolean isParting(String userMessage) {
         String message = userMessage.toLowerCase();
         List<String> partings = additionalDB.get("parting");
@@ -104,6 +107,7 @@ public class BotTalker {
     private boolean isQuestion(String userMessage) {
         return userMessage.endsWith("?");
     }
+
     // check if it is a simple question which starts with certain words
     private boolean isSimpleQuestion(String userMessage) {
         List<String> yesNoQuestion = additionalDB.get("yesNoQuestion");
@@ -113,6 +117,7 @@ public class BotTalker {
                 return true;
         return false;
     }
+
     // detect type of the question 
     private void detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
@@ -126,6 +131,7 @@ public class BotTalker {
         }
         responsesList.add(new Response(getRandomElementFromList(answer)));
     }
+
     // answers randomly variations for yes and no 
     private void answerYesOrNo() {
         List<String> Yes = additionalDB.get("Yes");
@@ -138,6 +144,7 @@ public class BotTalker {
     private String getRandomElementFromList(List<String> list) {
         return list.get(random.nextInt(list.size() - 1));
     }
+
     // return the first word of the string or the whole string
     private String firstWord(String userMessage) {
         if (userMessage.contains(" "))
@@ -145,6 +152,7 @@ public class BotTalker {
         return userMessage;
     }
 
+    //Search keyword on user message and process them
     private void addToListResponseOnKeyword(String userMessage) {
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> themes = findThemes(splitWords);
@@ -152,6 +160,7 @@ public class BotTalker {
         findNormalKeywordsAnswers(themes);
     }
 
+    //Search word pattern on user message and process them
     private void addToListResponseOnWordPattern(String userMessage) {
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> pronounsAll = findPronouns(splitWords);
@@ -183,6 +192,7 @@ public class BotTalker {
         responsesList = suitableResponse;
     }
 
+    //Check limit of Reserve themes and Last themes
     private void controlLastAndReserveResponses(Response answer) {
         lastPatternResponses.add(answer.getPattern());
         if (lastPatternResponses.size() == LAST_THEME_IN_QUEUE_SIZE)
