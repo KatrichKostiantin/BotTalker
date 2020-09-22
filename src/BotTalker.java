@@ -52,6 +52,7 @@ public class BotTalker {
                 if (isSimpleQuestion(userMessage))
                     answerYesOrNo();
                 else {
+                	detectQuestionType(userMessage);
                 }
             } else {
                 addToListResponseOnKeyword(userMessage);
@@ -76,7 +77,6 @@ public class BotTalker {
 
     private boolean isSimpleQuestion(String userMessage) {
         List<String> yesNoQuestion = additionalDB.get("yesNoQuestion");
-        String[] simple = {"is", "are", "am", "does", "do", "did", "will", "shall", "would"};
         String firstWord = firstWord(userMessage).toLowerCase();
         for (String str : yesNoQuestion)
             if (firstWord.equals(str))
