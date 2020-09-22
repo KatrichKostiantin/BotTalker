@@ -53,7 +53,12 @@ public class BotTalker {
             responsesList.clear();
             String userMessage = userInput();
             if (isQuestion(userMessage))
-                addToListResponseOnQuestion(userMessage);
+                //addToListResponseOnQuestion(userMessage);
+            	if(isSimpleQuestion(userMessage))
+            		answerYesOrNo();
+            	else {
+            		
+            	}
             else {
                 addToListResponseOnKeyword(userMessage);
                 addToListResponseOnWordPattern(userMessage);
@@ -72,7 +77,37 @@ public class BotTalker {
     }
 
     private boolean isQuestion(String userMessage) {
-        return userMessage.charAt(userMessage.length() - 1) == '?';
+        return userMessage.endsWith("?");
+    }
+    
+    private boolean isSimpleQuestion(String userMessage) {
+    	String[] simple ={"is","are","am","does","do","did","will","shall","would"};
+    	String firstWord = firstWord(userMessage).toLowerCase();    	
+    	for(int i=0;i<simple.length;i++) {
+    		if(firstWord.equals(simple[i])) return true;
+    	}
+		return false;
+    }
+    private void detectQuestionType(String userMessage) {
+    	String firstWord = firstWord(userMessage).toLowerCase();
+    	if(firstWord.equals("where")); //return random place
+    	else if(firstWord.equals("when"));// return random time
+    	else if (firstWord.equals("why"));
+    	else if (firstWord.equals("how"));
+    	return ;// what
+    }
+    private String answerYesOrNo() {
+    	String[] Yes = {"Yes","Definitely","That's right","Sure","Of course"};
+    	String[] No = {"No","Not really","I don't think so","I am afraid not"};
+    	boolean ans = random.nextBoolean();
+    	if(ans) return Yes[random.nextInt(Yes.length)];
+    	return No[random.nextInt(No.length)];
+    }
+    
+    private String firstWord(String userMessage) {
+    	if(userMessage.contains(" ")) 
+    		return  userMessage.substring(0, userMessage.indexOf(" "));
+    	return  userMessage;
     }
 
     private void addToListResponseOnQuestion(String userMessage) {
