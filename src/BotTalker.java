@@ -92,13 +92,19 @@ public class BotTalker {
         return false;
     }
 
-    private void detectQuestionType(String userMessage) {
+    private String detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
-        if (firstWord.equals("where")) ; //return random place
-        else if (firstWord.equals("when")) ;// return random time
-        else if (firstWord.equals("why")) ;
-        else if (firstWord.equals("how")) ;
-        return;// what
+        List<String> answer = null;
+    	if(firstWord.equals("where")) {
+    		answer = additionalDB.get("where");
+    		return answer.get(random.nextInt(answer.size())); 
+    	}
+    	else if(firstWord.equals("when")) {
+    		answer = additionalDB.get("when");
+    		return answer.get(random.nextInt(answer.size())); 
+    	}
+    	answer = additionalDB.get("ques");
+    	return answer.get(random.nextInt(answer.size())); 
     }
 
     private String answerYesOrNo() {
