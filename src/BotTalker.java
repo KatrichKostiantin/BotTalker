@@ -48,7 +48,12 @@ public class BotTalker {
             responsesList.clear();
             String userMessage = userInput();
             if (isQuestion(userMessage))
-                addToListResponseOnQuestion(userMessage);
+                //addToListResponseOnQuestion(userMessage);
+            	if(isSimpleQuestion(userMessage))
+            		answerYesOrNo();
+            	else {
+            		
+            	}
             else {
                 addToListResponseOnKeyword(userMessage);
                 addToListResponseOnWordPattern(userMessage);
@@ -74,11 +79,18 @@ public class BotTalker {
     	String[] simple ={"is","are","am","does","do","did","will","shall","would"};
     	String firstWord = firstWord(userMessage).toLowerCase();    	
     	for(int i=0;i<simple.length;i++) {
-    		if(firstWord.equals(simple)) return true;
+    		if(firstWord.equals(simple[i])) return true;
     	}
 		return false;
     }
-    
+    private void detectQuestionType(String userMessage) {
+    	String firstWord = firstWord(userMessage).toLowerCase();
+    	if(firstWord.equals("where")); //return random place
+    	else if(firstWord.equals("when"));// return random time
+    	else if (firstWord.equals("why"));
+    	else if (firstWord.equals("how"));
+    	return ;// what
+    }
     private String answerYesOrNo() {
     	String[] Yes = {"Yes","Definitely","That's right","Sure","Of course"};
     	String[] No = {"No","Not really","I don't think so","I am afraid not"};
