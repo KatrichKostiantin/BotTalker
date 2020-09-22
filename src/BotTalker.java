@@ -38,8 +38,6 @@ public class BotTalker {
             uselessWords = additionalDB.get("useless");
             allThem = themeWordReader.readAllFileAsMap(",");
             answersPattern = answersPatternWordReader.readAllFileAsMap(";");
-            allThem = themeWordReader.readAllFileAsMap(",");
-            answersPattern = answersPatternWordReader.readAllFileAsMap(";");
             pronouns = pronounsWordReader.readAllFileAsMap(",");
         } catch (IOException e) {
             System.out.println("We cannot find database file");
@@ -54,14 +52,12 @@ public class BotTalker {
         do {
             responsesList.clear();
             String userMessage = userInput();
-            if (isQuestion(userMessage))
-                //addToListResponseOnQuestion(userMessage);
+            if (isQuestion(userMessage)) {
                 if (isSimpleQuestion(userMessage))
                     answerYesOrNo();
                 else {
-
                 }
-            else {
+            } else {
                 addToListResponseOnKeyword(userMessage);
                 addToListResponseOnWordPattern(userMessage);
             }
@@ -134,7 +130,7 @@ public class BotTalker {
     private void addToListResponseOnWordPattern(String userMessage) {
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> pronounsAll = findPronouns(splitWords);
-        if(pronounsAll.contains(splitWords.get(0))){
+        if (pronounsAll.contains(splitWords.get(0))) {
             if (pronounsAll.get(0).equals("i"))
                 responsesList.add(new Response("Why do you think you *", userMessage.replace("I ", "")));
             else
