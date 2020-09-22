@@ -156,10 +156,8 @@ public class BotTalker {
         List<String> splitWords = splitAndCleanMessage(userMessage);
         List<String> pronounsAll = findPronouns(splitWords);
         if (pronounsAll.contains(splitWords.get(0))) {
-            if (pronounsAll.get(0).equals("i"))
-                responsesList.add(new Response(getRandomElementFromList(additionalDB.get("answersOnVerbsWithYou")), userMessage.replace("I ", "")));
-            else
-                responsesList.add(new Response(getRandomElementFromList(additionalDB.get("answersOnVerbs")), userMessage));
+            String localUserMessage = userMessage.replaceAll("I am","you are").replaceAll("I","you");
+            responsesList.add(new Response(getRandomElementFromList(additionalDB.get("answersOnVerbs")), localUserMessage));
         }
         pronounsAll.forEach(reserveThemeResponse::remove);
     }
