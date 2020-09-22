@@ -116,7 +116,7 @@ public class BotTalker {
 
     private void detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
-        List<String> answer = null;
+        List<String> answer;
         if (firstWord.equals("where")) {
             answer = additionalDB.get("where");
         } else if (firstWord.equals("when")) {
@@ -143,9 +143,6 @@ public class BotTalker {
         if (userMessage.contains(" "))
             return userMessage.substring(0, userMessage.indexOf(" "));
         return userMessage;
-    }
-
-    private void addToListResponseOnQuestion(String userMessage) {
     }
 
     private void addToListResponseOnKeyword(String userMessage) {
