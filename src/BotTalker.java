@@ -88,26 +88,25 @@ public class BotTalker {
         return false;
     }
 
-    private String detectQuestionType(String userMessage) {
+    private void detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
         List<String> answer = null;
         if (firstWord.equals("where")) {
             answer = additionalDB.get("where");
-            return answer.get(random.nextInt(answer.size()));
         } else if (firstWord.equals("when")) {
             answer = additionalDB.get("when");
-            return answer.get(random.nextInt(answer.size()));
+        }else {
+        	answer = additionalDB.get("ques");
         }
-        answer = additionalDB.get("ques");
-        return answer.get(random.nextInt(answer.size()));
+        responsesList.add(new Response(getRandomElementFromList(answer)));
     }
 
     private void answerYesOrNo() {
-        String[] Yes = {"Yes", "Definitely", "That's right", "Sure", "Of course"};
-        String[] No = {"No", "Not really", "I don't think so", "I am afraid not"};
-
-        if (random.nextBoolean()) responsesList.add(new Response(getRandomElementFromList(Arrays.asList(Yes))));
-        responsesList.add(new Response(getRandomElementFromList(Arrays.asList(No))));
+        List<String> Yes = additionalDB.get("Yes");
+        List<String> No = additionalDB.get("No");
+        if (random.nextBoolean()) 
+        	responsesList.add(new Response(getRandomElementFromList(Yes)));
+        else responsesList.add(new Response(getRandomElementFromList(No)));
     }
 
     private String getRandomElementFromList(List<String> list) {
