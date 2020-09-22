@@ -1,2 +1,0 @@
-pronouns,i,he,she,it,we,they
-adverbs,often,usually,never,always

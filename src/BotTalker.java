@@ -6,9 +6,7 @@ public class BotTalker {
     private static final String THEME_FILE_NAME = "keywords.txt";
     private static final String ADDITIONAL_FILE_NAME = "additionalFile.txt";
     private static final String ANSWER_FILE_NAME = "answers.txt";
-    private static final String PRONOUNS_FILE_NAME = "pronouns.txt";
 
-    //
     private static final int LAST_THEME_IN_QUEUE_SIZE = 7;
     private static final int RESERVE_THEME_IN_QUEUE_SIZE = 5;
 
@@ -24,7 +22,6 @@ public class BotTalker {
     private Map<String, List<String>> allThem;
     private Map<String, List<String>> answersPattern;
     private Map<String, List<String>> additionalDB;
-    private Map<String, List<String>> pronouns;
 
     public BotTalker(String userName) {
         this.userName = userName;
@@ -34,13 +31,11 @@ public class BotTalker {
         DataBaseReader uselessWordReader = new DataBaseReader(ADDITIONAL_FILE_NAME);
         DataBaseReader themeWordReader = new DataBaseReader(THEME_FILE_NAME);
         DataBaseReader answersPatternWordReader = new DataBaseReader(ANSWER_FILE_NAME);
-        DataBaseReader pronounsWordReader = new DataBaseReader(PRONOUNS_FILE_NAME);
         try {
             additionalDB = uselessWordReader.readAllFileAsMap(";");
             uselessWords = additionalDB.get("useless");
             allThem = themeWordReader.readAllFileAsMap(",");
             answersPattern = answersPatternWordReader.readAllFileAsMap(";");
-            pronouns = pronounsWordReader.readAllFileAsMap(",");
         } catch (IOException e) {
             System.out.println("We cannot find database file");
         } finally {
@@ -58,6 +53,7 @@ public class BotTalker {
                 if (isSimpleQuestion(userMessage))
                     answerYesOrNo();
                 else {
+                	detectQuestionType(userMessage);
                 }
             } else {
                 addToListResponseOnKeyword(userMessage);
@@ -109,7 +105,6 @@ public class BotTalker {
 
     private boolean isSimpleQuestion(String userMessage) {
         List<String> yesNoQuestion = additionalDB.get("yesNoQuestion");
-        String[] simple = {"is", "are", "am", "does", "do", "did", "will", "shall", "would"};
         String firstWord = firstWord(userMessage).toLowerCase();
         for (String str : yesNoQuestion)
             if (firstWord.equals(str))
@@ -117,26 +112,25 @@ public class BotTalker {
         return false;
     }
 
-    private String detectQuestionType(String userMessage) {
+    private void detectQuestionType(String userMessage) {
         String firstWord = firstWord(userMessage).toLowerCase();
         List<String> answer = null;
         if (firstWord.equals("where")) {
             answer = additionalDB.get("where");
-            return answer.get(random.nextInt(answer.size()));
         } else if (firstWord.equals("when")) {
             answer = additionalDB.get("when");
-            return answer.get(random.nextInt(answer.size()));
+        }else {
+        	answer = additionalDB.get("ques");
         }
-        answer = additionalDB.get("ques");
-        return answer.get(random.nextInt(answer.size()));
+        responsesList.add(new Response(getRandomElementFromList(answer)));
     }
 
     private void answerYesOrNo() {
-        String[] Yes = {"Yes", "Definitely", "That's right", "Sure", "Of course"};
-        String[] No = {"No", "Not really", "I don't think so", "I am afraid not"};
-
-        if (random.nextBoolean()) responsesList.add(new Response(getRandomElementFromList(Arrays.asList(Yes))));
-        responsesList.add(new Response(getRandomElementFromList(Arrays.asList(No))));
+        List<String> Yes = additionalDB.get("Yes");
+        List<String> No = additionalDB.get("No");
+        if (random.nextBoolean())
+        	responsesList.add(new Response(getRandomElementFromList(Yes)));
+        else responsesList.add(new Response(getRandomElementFromList(No)));
     }
 
     private String getRandomElementFromList(List<String> list) {
@@ -164,9 +158,9 @@ public class BotTalker {
         List<String> pronounsAll = findPronouns(splitWords);
         if (pronounsAll.contains(splitWords.get(0))) {
             if (pronounsAll.get(0).equals("i"))
-                responsesList.add(new Response("Why do you think you *", userMessage.replace("I ", "")));
+                responsesList.add(new Response(getRandomElementFromList(additionalDB.get("answersOnVerbsWithYou")), userMessage.replace("I ", "")));
             else
-                responsesList.add(new Response("Why do you think *", userMessage));
+                responsesList.add(new Response(getRandomElementFromList(additionalDB.get("answersOnVerbs")), userMessage));
         }
         pronounsAll.forEach(reserveThemeResponse::remove);
     }
@@ -226,11 +220,12 @@ public class BotTalker {
 
     private List<String> findPronouns(List<String> splitWords) {
         List<String> result = new ArrayList<>();
+        List<String> pronouns = additionalDB.get("pronouns");
         for (String word : splitWords) {
-            for (String key : pronouns.keySet()) {
-                if (pronouns.get(key).contains(word))
-                    result.add(word);
-            }
+
+            if (pronouns.contains(word))
+                result.add(word);
+
         }
         return result;
     }

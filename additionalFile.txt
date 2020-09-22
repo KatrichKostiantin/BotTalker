@@ -1,6 +1,14 @@
 useless;am;of;the;a;or
 short message;Don't be so concise
-ask more;Sorry, I dont understand you.;Can you tell us something else about yourself?;Let's change the subject, what else are you fond of;What do you think about this?;And how does society react to this?;Can you tell us about this?;I do not want to talk about this topic.
+pronouns;i;he;she;it;we;they
+answersToVerbs;Why do you think *?;Are you sure *?; I think that * ,that's not true?;Does your friends know that *
+answersToVerbsWithYou;Why do you think you *?;Are you sure you *?; I think that you * that's not true?
+ask more;Sorry, I don't understand you.;Can you tell me something else about yourself?;Let's change the subject, what are you fond of;What do you think about this?;And how does society react to this?;Can you tell me about this?;I do not want to talk about this topic.
 yesNoQuestion;is;are;am;does;do;did;will;shall;would
+when;In the evening;In the afternoon;In the morning;At night;At midnight
+where;In the city; In the country; In the building;In France;In Ukraine;In Canada
+ques;Very hard question;I need to think about your question; Why do you ask?;It's a secret;Interesting question
+Yes;Yes;Definitely;That's right;Sure;Of course
+No;No;Not really;I don't think so;I am afraid not
 greeting;hi;hello;it's nice to meet you;What’s new?;G’day!;Howdy!
 parting;bye;bb;goodbye;take care;see you later;bye-bye
