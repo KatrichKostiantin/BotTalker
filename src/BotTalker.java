@@ -78,9 +78,10 @@ public class BotTalker {
     }
 
     private void isGreeting(String userMessage) {
+        String message = userMessage.toLowerCase();
         List<String> greetings = additionalDB.get("greeting");
         for (String str : greetings) {
-            if (userMessage.contains(str)) {
+            if (message.contains(str)) {
                 responsesList.clear();
                 responsesList.add(new Response(getRandomElementFromList(greetings)));
             }
@@ -88,9 +89,10 @@ public class BotTalker {
     }
 
     private boolean isParting(String userMessage) {
+        String message = userMessage.toLowerCase();
         List<String> partings = additionalDB.get("parting");
         for (String str : partings) {
-            if (userMessage.contains(str)) {
+            if (message.contains(str)) {
                 responsesList.clear();
                 responsesList.add(new Response(getRandomElementFromList(partings)));
                 return true;
