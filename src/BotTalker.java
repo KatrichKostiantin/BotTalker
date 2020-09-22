@@ -2,11 +2,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class BotTalker {
+    //Names of txt files
     private static final String THEME_FILE_NAME = "keywords.txt";
     private static final String ADDITIONAL_FILE_NAME = "additionalFile.txt";
     private static final String ANSWER_FILE_NAME = "answers.txt";
     private static final String PRONOUNS_FILE_NAME = "pronouns.txt";
 
+    //
     private static final int LAST_THEME_IN_QUEUE_SIZE = 7;
     private static final int RESERVE_THEME_IN_QUEUE_SIZE = 5;
 
@@ -67,11 +69,38 @@ public class BotTalker {
                 addToListResponseReserveTheme();
 
             checkResponseListOnIteration();
+            isGreeting(userMessage);
+            if (isParting(userMessage)) {
+                botResponse();
+                return;
+            }
+            checkResponseListOnIteration();
             if (responsesList.size() == 0)
                 addToListAskingMoreInformation(userMessage);
-
             botResponse();
         } while (true);
+    }
+
+    private void isGreeting(String userMessage) {
+        List<String> greetings = additionalDB.get("greeting");
+        for (String str : greetings) {
+            if (userMessage.contains(str)) {
+                responsesList.clear();
+                responsesList.add(new Response(getRandomElementFromList(greetings)));
+            }
+        }
+    }
+
+    private boolean isParting(String userMessage) {
+        List<String> partings = additionalDB.get("parting");
+        for (String str : partings) {
+            if (userMessage.contains(str)) {
+                responsesList.clear();
+                responsesList.add(new Response(getRandomElementFromList(partings)));
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isQuestion(String userMessage) {
@@ -140,18 +169,12 @@ public class BotTalker {
                 responsesList.add(new Response("Why do you think *", userMessage));
         }
         pronounsAll.forEach(reserveThemeResponse::remove);
-//        List<String> themes = findThemes(splitWords);
-//        themes.forEach(reserveThemeResponse::remove);
-//        findNormalKeywordsAnswers(themes);
-
-
     }
 
     private void addToListResponseReserveTheme() {
         checkResponseListOnIteration();
         findNormalKeywordsAnswers(new ArrayList<>(reserveThemeResponse));
     }
-
 
     private void botResponse() {
         checkResponseListOnIteration();

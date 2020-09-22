@@ -2,3 +2,5 @@ useless;am;of;the;a;or
 short message;Don't be so concise
 ask more;Sorry, I dont understand you.;Can you tell us something else about yourself?;Let's change the subject, what else are you fond of;What do you think about this?;And how does society react to this?;Can you tell us about this?;I do not want to talk about this topic.
 yesNoQuestion;is;are;am;does;do;did;will;shall;would
+greeting;hi;hello;it's nice to meet you;What’s new?;G’day!;Howdy!
+parting;bye;bb;goodbye;take care;see you later;bye-bye

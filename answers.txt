@@ -3,5 +3,3 @@ What kind of * you like?;film;food;fish;meat;vegetables;fruit;berries;travel;spo
 Do you have *?;work;love;family;pets
 Tell me more about your *.;holidays;travel;clothes;work
 What do you think about *?;weather;technique;space;sport;alcohol;book
-Hello!;cheers
-Take care!;bb
